@@ -16,19 +16,19 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.example.compose.AppTheme
 import com.example.gymtracker.traininglist.presentation.screen.TrainingListScreen
-import com.example.gymtracker.ui.theme.GymTrackerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            GymTrackerTheme {
+            AppTheme(true) {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
                     CenterAlignedTopAppBar(title = {
                         Row(
@@ -36,7 +36,9 @@ class MainActivity : ComponentActivity() {
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             Text(
-                                text = stringResource(R.string.app_name)
+                                text = stringResource(R.string.app_name),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
                             )
                         }
                     })
