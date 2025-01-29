@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,22 +29,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GymTrackerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        CenterAlignedTopAppBar(
-                            title = {
-                                Row(
-                                    Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Text(
-                                        text = stringResource(R.string.app_name)
-                                    )
-                                }
-                            }
-                        )
-                    }) { _ ->
-                    TrainingListScreen()
+                Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+                    CenterAlignedTopAppBar(title = {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.app_name)
+                            )
+                        }
+                    })
+                }) { innerPadding ->
+                    Box(Modifier.padding(innerPadding)) {
+                        TrainingListScreen()
+                    }
                 }
             }
         }

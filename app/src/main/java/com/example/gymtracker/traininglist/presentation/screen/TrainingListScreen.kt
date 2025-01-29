@@ -1,17 +1,29 @@
 package com.example.gymtracker.traininglist.presentation.screen
 
+import android.widget.ProgressBar
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gymtracker.traininglist.presentation.state.TrainingListState
 import com.example.gymtracker.traininglist.presentation.state.TrainingListUiState
 import com.example.gymtracker.traininglist.presentation.viewmodel.TrainingListViewModel
+import com.example.gymtracker.utils.trainingBackSample
+import com.example.gymtracker.utils.trainingDayChestSample
 
 @Composable
 fun TrainingListScreen() {
@@ -22,10 +34,41 @@ fun TrainingListScreen() {
 
 @Composable
 fun TrainingListScreen(state: TrainingListUiState) {
-    Box(
-        Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text = "TrainingListScreen")
+    when (state.uiState) {
+        TrainingListState.SUCCESS ->
+            LazyColumn(
+                Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(20.dp),
+            ) {
+                items(
+                    items = state.trainings,
+                    key = { it.hashCode() },
+                ) { training ->
+                    Text(text = training.name)
+                }
+            }
+
+        else ->
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator()
+            }
     }
+
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TrainingListScreenSuccessPrev() {
+    TrainingListScreen(
+        state = TrainingListUiState(
+            uiState = TrainingListState.SUCCESS,
+            trainings = listOf(
+                trainingBackSample,
+                trainingDayChestSample,
+            )
+        )
+    )
 }
