@@ -1,4 +1,4 @@
-package com.example.gymtracker
+package com.example.gymtracker.shared.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

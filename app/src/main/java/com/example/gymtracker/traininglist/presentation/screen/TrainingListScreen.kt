@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.compose.AppTheme
+import com.example.gymtracker.traininglist.presentation.component.TrainingDayCard
 import com.example.gymtracker.traininglist.presentation.state.TrainingListState
 import com.example.gymtracker.traininglist.presentation.state.TrainingListUiState
 import com.example.gymtracker.traininglist.presentation.viewmodel.TrainingListViewModel
@@ -41,10 +43,9 @@ fun TrainingListScreen(state: TrainingListUiState) {
                     items = state.trainings,
                     key = { it.hashCode() },
                 ) { training ->
-                    Text(text = training.name)
+                    TrainingDayCard(title = training.name)
                 }
             }
-
         else ->
             Box(
                 Modifier.fillMaxSize(),
@@ -53,19 +54,22 @@ fun TrainingListScreen(state: TrainingListUiState) {
                 CircularProgressIndicator()
             }
     }
-
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun TrainingListScreenSuccessPrev() {
-    TrainingListScreen(
-        state = TrainingListUiState(
-            uiState = TrainingListState.SUCCESS,
-            trainings = listOf(
-                trainingBackSample,
-                trainingDayChestSample,
+    AppTheme(darkTheme = true) {
+        Surface {
+            TrainingListScreen(
+                state = TrainingListUiState(
+                    uiState = TrainingListState.SUCCESS,
+                    trainings = listOf(
+                        trainingBackSample,
+                        trainingDayChestSample,
+                    )
+                )
             )
-        )
-    )
+        }
+    }
 }
