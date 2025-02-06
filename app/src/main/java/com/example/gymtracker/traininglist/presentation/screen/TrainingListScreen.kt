@@ -22,7 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.compose.AppTheme
+import com.example.gymtracker.shared.domain.ScreenRoute
+import com.example.gymtracker.trainingdetail.presentation.navigation.trainingDetailScreenRoute
 import com.example.gymtracker.traininglist.presentation.component.TrainingDayCard
+import com.example.gymtracker.traininglist.presentation.intent.TrainingListIntent
 import com.example.gymtracker.traininglist.presentation.state.TrainingListState
 import com.example.gymtracker.traininglist.presentation.state.TrainingListUiState
 import com.example.gymtracker.traininglist.presentation.viewmodel.TrainingListViewModel
@@ -33,11 +36,19 @@ import com.example.gymtracker.utils.trainingDayChestSample
 fun TrainingListScreen(navController: NavController) {
     val viewModel: TrainingListViewModel = viewModel()
     val state by viewModel.state.collectAsState()
-    TrainingListScreen(state)
+    TrainingListScreen(state) { intent ->
+        when (intent) {
+            is TrainingListIntent.GoToTrainingDetail ->
+                navController.navigate(
+                    route = trainingDetailScreenRoute,
+                     ScreenRoute.TrainingDetail(intent.trainingDay)
+                )
+        }
+    }
 }
 
 @Composable
-fun TrainingListScreen(state: TrainingListUiState) {
+fun TrainingListScreen(state: TrainingListUiState, onIntent: (TrainingListIntent) -> Unit = {}) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -56,7 +67,16 @@ fun TrainingListScreen(state: TrainingListUiState) {
                     items = state.trainings,
                     key = { it.hashCode() },
                 ) { training ->
-                    TrainingDayCard(title = training.name)
+                    TrainingDayCard(
+                        trainingDay = training,
+                        onTrainingDayClick = {
+                            onIntent(
+                                TrainingListIntent.GoToTrainingDetail(
+                                    training
+                                )
+                            )
+                        },
+                    )
                 }
             }
 

@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,7 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
-import com.example.gymtracker.shared.domain.ScreenTab
+import com.example.gymtracker.shared.domain.ScreenRoute
 import com.example.gymtracker.shared.presentation.navigation.GymTrackerNavHostController
 import com.example.gymtracker.shared.presentation.theme.Typography
 
@@ -69,9 +71,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        ScreenTab.TrainingList,
-        ScreenTab.Historic,
-        ScreenTab.Progress,
+        ScreenRoute.TrainingList,
+        ScreenRoute.Historic,
+        ScreenRoute.Progress,
     )
 
     NavigationBar {
@@ -80,7 +82,10 @@ fun BottomNavigationBar(navController: NavController) {
 
         items.forEach { screenTab ->
             NavigationBarItem(
-                icon = { Icon(imageVector = screenTab.icon, contentDescription = screenTab.title) },
+                icon = { Icon(
+                    imageVector = screenTab.icon ?: Icons.Default.Home,
+                    contentDescription = screenTab.title,
+                ) },
                 label = { Text(screenTab.title) },
                 selected = currentRoute == screenTab.route,
                 onClick = {

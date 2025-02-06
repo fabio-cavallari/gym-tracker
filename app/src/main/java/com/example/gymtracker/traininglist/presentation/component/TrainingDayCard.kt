@@ -1,5 +1,6 @@
 package com.example.gymtracker.traininglist.presentation.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,16 +20,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.AppTheme
 import com.example.gymtracker.shared.presentation.theme.Typography
+import com.example.gymtracker.traininglist.domain.TrainingDay
+import com.example.gymtracker.utils.trainingDayChestSample
 
 @Composable
-fun TrainingDayCard(modifier: Modifier = Modifier, title: String) {
+fun TrainingDayCard(
+    modifier: Modifier = Modifier,
+    trainingDay: TrainingDay,
+    onTrainingDayClick: (TrainingDay) -> Unit = {},
+) {
     Card(
         modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable {  },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
         Column(Modifier.padding(16.dp)) {
             Spacer(Modifier.height(30.dp))
@@ -37,7 +45,7 @@ fun TrainingDayCard(modifier: Modifier = Modifier, title: String) {
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = title,
+                    text = trainingDay.name,
                     style = Typography.headlineSmall,
                 )
             }
@@ -53,6 +61,6 @@ fun TrainingDayCard(modifier: Modifier = Modifier, title: String) {
 @Composable
 private fun TrainingDayCardPrev() {
     AppTheme(darkTheme = true) {
-        TrainingDayCard(title = "chest")
+        TrainingDayCard(trainingDay = trainingDayChestSample)
     }
 }
