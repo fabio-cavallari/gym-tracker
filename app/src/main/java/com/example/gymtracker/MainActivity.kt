@@ -12,21 +12,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
+import com.example.gymtracker.shared.domain.ScreenTab
 import com.example.gymtracker.shared.presentation.navigation.GymTrackerNavHostController
+import com.example.gymtracker.shared.presentation.theme.Typography
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +37,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme(true) {
+                val navController = rememberNavController()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
@@ -44,26 +48,48 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 Text(
                                     text = stringResource(R.string.app_name),
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Bold,
+                                    style = Typography.headlineLarge,
                                 )
                             }
                         })
                     },
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = { },
-                        ) {
-                            Icon(Icons.Filled.Add, "add new training")
-                        }
-                    },
+                    bottomBar = {
+                        BottomNavigationBar(navController)
+                    }
                 ) { innerPadding ->
-                    val navController = rememberNavController()
                     Box(Modifier.padding(innerPadding)) {
                         GymTrackerNavHostController(navController)
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BottomNavigationBar(navController: NavController) {
+    val items = listOf(
+        ScreenTab.TrainingList,
+        ScreenTab.Historic,
+        ScreenTab.Progress,
+    )
+
+    NavigationBar {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
+        items.forEach { screenTab ->
+            NavigationBarItem(
+                icon = { Icon(imageVector = screenTab.icon, contentDescription = screenTab.title) },
+                label = { Text(screenTab.title) },
+                selected = currentRoute == screenTab.route,
+                onClick = {
+                    navController.navigate(screenTab.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
     }
 }

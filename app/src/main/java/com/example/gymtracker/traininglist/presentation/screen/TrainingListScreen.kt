@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,9 +38,17 @@ fun TrainingListScreen(navController: NavController) {
 
 @Composable
 fun TrainingListScreen(state: TrainingListUiState) {
-    when (state.uiState) {
-        TrainingListState.SUCCESS ->
-            LazyColumn(
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { },
+            ) {
+                Icon(Icons.Filled.Add, "add new training")
+            }
+        },
+    ) { _ ->
+        when (state.uiState) {
+            TrainingListState.SUCCESS -> LazyColumn(
                 Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(20.dp),
             ) {
@@ -46,13 +59,14 @@ fun TrainingListScreen(state: TrainingListUiState) {
                     TrainingDayCard(title = training.name)
                 }
             }
-        else ->
-            Box(
+
+            else -> Box(
                 Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator()
             }
+        }
     }
 }
 
@@ -63,8 +77,7 @@ private fun TrainingListScreenSuccessPrev() {
         Surface {
             TrainingListScreen(
                 state = TrainingListUiState(
-                    uiState = TrainingListState.SUCCESS,
-                    trainings = listOf(
+                    uiState = TrainingListState.SUCCESS, trainings = listOf(
                         trainingBackSample,
                         trainingDayChestSample,
                     )

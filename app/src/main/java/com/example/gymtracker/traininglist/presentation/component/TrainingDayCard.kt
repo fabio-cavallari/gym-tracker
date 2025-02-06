@@ -38,7 +38,7 @@ fun TrainingDayCard(modifier: Modifier = Modifier, title: String) {
             ) {
                 Text(
                     text = title,
-                    style = Typography.titleLarge,
+                    style = Typography.headlineSmall,
                 )
             }
             HorizontalDivider(
