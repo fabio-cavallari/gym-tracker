@@ -19,15 +19,19 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
@@ -80,22 +84,34 @@ fun BottomNavigationBar(navController: NavController) {
 
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentDestination = navBackStackEntry?.destination
 
         items.forEach { screenTab ->
+            val isSelected = currentDestination?.hierarchy?.any {
+                it.route == screenTab.first::class.qualifiedName
+            } == true
             NavigationBarItem(
                 icon = { Icon(
                     imageVector = screenTab.second,
                     contentDescription = screenTab.first.title,
                 ) },
+                colors = NavigationBarItemColors(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    selectedIndicatorColor = Color.Transparent,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurface,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledIconColor = MaterialTheme.colorScheme.onSurface,
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                ),
                 label = { Text(screenTab.first.title) },
-                selected = currentRoute == screenTab.first.route,
+                selected = isSelected,
                 onClick = {
                     navController.navigate(screenTab.first) {
                         popUpTo(navController.graph.startDestinationId)
                         launchSingleTop = true
                     }
-                }
+                },
             )
         }
     }
