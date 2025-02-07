@@ -52,3 +52,5 @@ val trainingBackSample = TrainingDay(
     name = "back day",
     exercises = listOf(exerciseBackASample, exerciseBackBSample)
 )
+
+val trainingListSample = listOf(trainingBackSample, trainingDayChestSample)

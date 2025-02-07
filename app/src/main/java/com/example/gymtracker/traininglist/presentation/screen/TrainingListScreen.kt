@@ -23,10 +23,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.compose.AppTheme
 import com.example.gymtracker.shared.domain.ScreenRoute
+import com.example.gymtracker.shared.presentation.state.UiState
 import com.example.gymtracker.traininglist.presentation.component.TrainingDayCard
 import com.example.gymtracker.traininglist.presentation.intent.TrainingListIntent
 import com.example.gymtracker.traininglist.presentation.intent.TrainingListIntent.GoToTrainingDetail
-import com.example.gymtracker.traininglist.presentation.state.TrainingListState
 import com.example.gymtracker.traininglist.presentation.state.TrainingListUiState
 import com.example.gymtracker.traininglist.presentation.viewmodel.TrainingListViewModel
 import com.example.gymtracker.utils.trainingBackSample
@@ -58,7 +58,7 @@ fun TrainingListScreen(state: TrainingListUiState, onIntent: (TrainingListIntent
         },
     ) { _ ->
         when (state.uiState) {
-            TrainingListState.SUCCESS -> LazyColumn(
+            UiState.Success -> LazyColumn(
                 Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(20.dp),
             ) {
@@ -96,7 +96,7 @@ private fun TrainingListScreenSuccessPrev() {
         Surface {
             TrainingListScreen(
                 state = TrainingListUiState(
-                    uiState = TrainingListState.SUCCESS, trainings = listOf(
+                    uiState = UiState.Success, trainings = listOf(
                         trainingBackSample,
                         trainingDayChestSample,
                     )
