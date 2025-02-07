@@ -8,10 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.gymtracker.shared.presentation.theme.Typography
-import com.example.gymtracker.traininglist.domain.TrainingDay
 
 @Composable
-fun TrainingDetailScreen(navController: NavController, trainingDay: TrainingDay) {
+fun TrainingDetailScreen(navController: NavController, trainingDayId: String) {
     TrainingDetailScreen()
 }
 
@@ -21,6 +20,6 @@ fun TrainingDetailScreen(modifier: Modifier = Modifier) {
         modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text("Progress", style = Typography.titleLarge)
+        Text("TrainingDetail", style = Typography.titleLarge)
     }
 }

@@ -23,9 +23,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.compose.AppTheme
 import com.example.gymtracker.shared.domain.ScreenRoute
-import com.example.gymtracker.trainingdetail.presentation.navigation.trainingDetailScreenRoute
 import com.example.gymtracker.traininglist.presentation.component.TrainingDayCard
 import com.example.gymtracker.traininglist.presentation.intent.TrainingListIntent
+import com.example.gymtracker.traininglist.presentation.intent.TrainingListIntent.GoToTrainingDetail
 import com.example.gymtracker.traininglist.presentation.state.TrainingListState
 import com.example.gymtracker.traininglist.presentation.state.TrainingListUiState
 import com.example.gymtracker.traininglist.presentation.viewmodel.TrainingListViewModel
@@ -36,12 +36,11 @@ import com.example.gymtracker.utils.trainingDayChestSample
 fun TrainingListScreen(navController: NavController) {
     val viewModel: TrainingListViewModel = viewModel()
     val state by viewModel.state.collectAsState()
-    TrainingListScreen(state) { intent ->
+    TrainingListScreen(state) { intent: TrainingListIntent ->
         when (intent) {
-            is TrainingListIntent.GoToTrainingDetail ->
+            is GoToTrainingDetail ->
                 navController.navigate(
-                    route = trainingDetailScreenRoute,
-                     ScreenRoute.TrainingDetail(intent.trainingDay)
+                    route = ScreenRoute.TrainingDetailScreenRoute(intent.trainingDay.id)
                 )
         }
     }
@@ -71,7 +70,7 @@ fun TrainingListScreen(state: TrainingListUiState, onIntent: (TrainingListIntent
                         trainingDay = training,
                         onTrainingDayClick = {
                             onIntent(
-                                TrainingListIntent.GoToTrainingDetail(
+                                GoToTrainingDetail(
                                     training
                                 )
                             )

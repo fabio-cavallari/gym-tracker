@@ -42,11 +42,13 @@ val exerciseBackBSample = Exercise(
 )
 
 val trainingDayChestSample = TrainingDay(
+    id = "1",
     name = "chest day",
     exercises = listOf(exerciseChestASample, exerciseChestBSample)
 )
 
 val trainingBackSample = TrainingDay(
+    id = "2",
     name = "back day",
     exercises = listOf(exerciseBackASample, exerciseBackBSample)
 )

@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -71,9 +73,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        ScreenRoute.TrainingList,
-        ScreenRoute.Historic,
-        ScreenRoute.Progress,
+        Pair(ScreenRoute.TrainingListScreenRoute, Icons.Default.Menu),
+        Pair(ScreenRoute.HistoricScreenRoute, Icons.Default.DateRange),
+        Pair(ScreenRoute.ProgressScreenRoute, Icons.Default.Star)
     )
 
     NavigationBar {
@@ -83,13 +85,13 @@ fun BottomNavigationBar(navController: NavController) {
         items.forEach { screenTab ->
             NavigationBarItem(
                 icon = { Icon(
-                    imageVector = screenTab.icon ?: Icons.Default.Home,
-                    contentDescription = screenTab.title,
+                    imageVector = screenTab.second,
+                    contentDescription = screenTab.first.title,
                 ) },
-                label = { Text(screenTab.title) },
-                selected = currentRoute == screenTab.route,
+                label = { Text(screenTab.first.title) },
+                selected = currentRoute == screenTab.first.route,
                 onClick = {
-                    navController.navigate(screenTab.route) {
+                    navController.navigate(screenTab.first) {
                         popUpTo(navController.graph.startDestinationId)
                         launchSingleTop = true
                     }

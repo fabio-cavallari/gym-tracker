@@ -33,7 +33,7 @@ fun TrainingDayCard(
         modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable {  },
+            .clickable { onTrainingDayClick(trainingDay) },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
