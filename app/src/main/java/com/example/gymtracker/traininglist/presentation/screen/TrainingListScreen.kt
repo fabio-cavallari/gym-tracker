@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.compose.AppTheme
@@ -34,7 +35,7 @@ import com.example.gymtracker.utils.trainingDayChestSample
 
 @Composable
 fun TrainingListScreen(navController: NavController) {
-    val viewModel: TrainingListViewModel = viewModel()
+    val viewModel: TrainingListViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
     TrainingListScreen(state) { intent: TrainingListIntent ->
         when (intent) {

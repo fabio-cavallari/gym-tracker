@@ -39,7 +39,9 @@ import com.example.compose.AppTheme
 import com.example.gymtracker.shared.domain.ScreenRoute
 import com.example.gymtracker.shared.presentation.navigation.GymTrackerNavHostController
 import com.example.gymtracker.shared.presentation.theme.Typography
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
