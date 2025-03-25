@@ -1,11 +1,14 @@
 package com.example.gymtracker.trainingdetail.presentation.screen
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gymtracker.shared.presentation.state.UiState
 import com.example.gymtracker.shared.presentation.theme.Typography
@@ -22,10 +25,19 @@ fun TrainingDetailScreen(navController: NavController, trainingDayId: String) {
 
 @Composable
 fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailUiState) {
-    Box(
-        modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+    Column (
+        modifier.fillMaxSize()
+            .padding(20.dp),
     ) {
+
         Text(uiState.trainingDay.name, style = Typography.titleLarge)
+        LazyColumn {
+            items(
+                items = uiState.trainingDay.exercises,
+                key = { it.hashCode() }
+            ) {
+
+            }
+        }
     }
 }
