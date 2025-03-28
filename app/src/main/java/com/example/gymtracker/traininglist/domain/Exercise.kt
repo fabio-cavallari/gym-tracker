@@ -9,5 +9,7 @@ data class Exercise(
     val reps: Int,
     val load: Double,
     val additionalTechnic: AdditionalTechnic?,
-    val muscleGroup: MuscleGroup
+    val muscleGroup: MuscleGroup,
+    val isOptionsRevealed: Boolean = false,
+    val skipped: Boolean = false
 )

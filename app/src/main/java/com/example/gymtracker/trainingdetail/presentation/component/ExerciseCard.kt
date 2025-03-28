@@ -1,6 +1,7 @@
 package com.example.gymtracker.trainingdetail.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gymtracker.shared.presentation.theme.DEFAULT_SPACING
@@ -40,67 +43,76 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
         shape = RoundedCornerShape(4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
-        Column(
-            Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.Start,
+        val overlayModifier = if (exercise.skipped) {
+            Modifier.background(Color.White).alpha(0.5f)
+        } else {
+            Modifier
+        }
+        Box(
+            modifier = overlayModifier
         ) {
-            Text(
-                text = exercise.name,
-                style = Typography.titleMedium,
-            )
-            Spacer(Modifier.height(15.dp))
-            HorizontalDivider(
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(Modifier.height(15.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.Start,
             ) {
                 Text(
-                    text = exercise.sets.toString(),
-                    modifier = Modifier.padding(end = 4.dp),
-                    style = Typography.labelMedium,
+                    text = exercise.name,
+                    style = Typography.titleMedium,
                 )
-                Icon(
-                    imageVector = Icons.Filled.Refresh,
-                    contentDescription = "setsCount"
+                Spacer(Modifier.height(15.dp))
+                HorizontalDivider(
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                Spacer(Modifier.width(DEFAULT_SPACING))
-                Text(
-                    text = exercise.sets.toString(),
-                    modifier = Modifier.padding(end = 4.dp),
-                    style = Typography.labelMedium
-                )
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
-                    contentDescription = "repsCount"
-                )
-                Spacer(Modifier.width(DEFAULT_SPACING))
-                Text(
-                    text = exercise.load.toString(),
-                    modifier = Modifier.padding(end = 4.dp),
-                    style = Typography.labelMedium
-                )
-                Icon(
-                    imageVector = Icons.Filled.FitnessCenter,
-                    contentDescription = "load"
-                )
-                Spacer(Modifier.weight(1f))
-                exercise.additionalTechnic?.let {
+                Spacer(Modifier.height(15.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        it.name,
-                        modifier = Modifier
-                            .background(
-                                color = secondaryDark,
-                                shape = RoundedCornerShape(16.dp),
-                            )
-                            .padding(horizontal = 8.dp),
-                        style = Typography.labelLarge,
-                        color = onSecondaryDark
+                        text = exercise.sets.toString(),
+                        modifier = Modifier.padding(end = 4.dp),
+                        style = Typography.labelMedium,
                     )
+                    Icon(
+                        imageVector = Icons.Filled.Refresh,
+                        contentDescription = "setsCount"
+                    )
+                    Spacer(Modifier.width(DEFAULT_SPACING))
+                    Text(
+                        text = exercise.sets.toString(),
+                        modifier = Modifier.padding(end = 4.dp),
+                        style = Typography.labelMedium
+                    )
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
+                        contentDescription = "repsCount"
+                    )
+                    Spacer(Modifier.width(DEFAULT_SPACING))
+                    Text(
+                        text = exercise.load.toString(),
+                        modifier = Modifier.padding(end = 4.dp),
+                        style = Typography.labelMedium
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.FitnessCenter,
+                        contentDescription = "load"
+                    )
+                    Spacer(Modifier.weight(1f))
+                    exercise.additionalTechnic?.let {
+                        Text(
+                            it.name,
+                            modifier = Modifier
+                                .background(
+                                    color = secondaryDark,
+                                    shape = RoundedCornerShape(16.dp),
+                                )
+                                .padding(horizontal = 8.dp),
+                            style = Typography.labelLarge,
+                            color = onSecondaryDark
+                        )
+                    }
                 }
-            }
 
+            }
         }
     }
 }
