@@ -92,7 +92,7 @@ fun TrainingListScreen(state: TrainingListUiState, onIntent: (TrainingListIntent
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview
 @Composable
 private fun TrainingListScreenSuccessPrev() {
     AppTheme(darkTheme = true) {

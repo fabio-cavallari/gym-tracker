@@ -56,7 +56,7 @@ fun TrainingDayCard(
     }
 }
 
-@Preview()
+@Preview
 @Composable
 private fun TrainingDayCardPrev() {
     AppTheme(darkTheme = true) {

@@ -1,5 +1,6 @@
 package com.example.gymtracker.trainingdetail.presentation.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,9 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.gymtracker.shared.presentation.theme.DEFAULT_SPACING
 import com.example.gymtracker.shared.presentation.theme.Typography
+import com.example.gymtracker.shared.presentation.theme.onSecondaryDark
+import com.example.gymtracker.shared.presentation.theme.secondaryDark
 import com.example.gymtracker.traininglist.domain.Exercise
-import com.example.gymtracker.utils.exerciseChestASample
+import com.example.gymtracker.utils.exerciseChestBSample
 
 @Composable
 fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
@@ -61,7 +65,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                     imageVector = Icons.Filled.Refresh,
                     contentDescription = "setsCount"
                 )
-                Spacer(Modifier.width(30.dp))
+                Spacer(Modifier.width(DEFAULT_SPACING))
                 Text(
                     text = exercise.sets.toString(),
                     modifier = Modifier.padding(end = 4.dp),
@@ -71,7 +75,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                     imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
                     contentDescription = "repsCount"
                 )
-                Spacer(Modifier.width(30.dp))
+                Spacer(Modifier.width(DEFAULT_SPACING))
                 Text(
                     text = exercise.load.toString(),
                     modifier = Modifier.padding(end = 4.dp),
@@ -81,8 +85,20 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                     imageVector = Icons.Filled.FitnessCenter,
                     contentDescription = "load"
                 )
-
-
+                Spacer(Modifier.weight(1f))
+                exercise.additionalTechnic?.let {
+                    Text(
+                        it.name,
+                        modifier = Modifier
+                            .background(
+                                color = secondaryDark,
+                                shape = RoundedCornerShape(16.dp),
+                            )
+                            .padding(horizontal = 8.dp),
+                        style = Typography.labelLarge,
+                        color = onSecondaryDark
+                    )
+                }
             }
 
         }
@@ -92,5 +108,5 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
 @Preview
 @Composable
 fun ExerciseCardPrev() {
-    ExerciseCard(exercise = exerciseChestASample)
+    ExerciseCard(exercise = exerciseChestBSample)
 }

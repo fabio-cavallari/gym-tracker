@@ -19,7 +19,7 @@ val exerciseChestBSample = Exercise(
     sets = 4,
     reps = 10,
     load = 10.0,
-    additionalTechnic = AdditionalTechnic.DROP_SET,
+    additionalTechnic = AdditionalTechnic.DropSet,
     muscleGroup = MuscleGroup.CHEST
 )
 
@@ -37,7 +37,7 @@ val exerciseBackBSample = Exercise(
     sets = 3,
     reps = 10,
     load = 10.0,
-    additionalTechnic = AdditionalTechnic.REST_AND_PAUSE,
+    additionalTechnic = AdditionalTechnic.RestAndPause,
     muscleGroup = MuscleGroup.BACK
 )
 
