@@ -42,7 +42,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
         ) {
             Text(
                 text = exercise.name,
-                style = Typography.headlineSmall,
+                style = Typography.titleMedium,
             )
             Spacer(Modifier.height(15.dp))
             HorizontalDivider(
@@ -55,7 +55,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                 Text(
                     text = exercise.sets.toString(),
                     modifier = Modifier.padding(end = 4.dp),
-                    style = Typography.bodyMedium,
+                    style = Typography.labelMedium,
                 )
                 Icon(
                     imageVector = Icons.Filled.Refresh,
@@ -65,7 +65,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                 Text(
                     text = exercise.sets.toString(),
                     modifier = Modifier.padding(end = 4.dp),
-                    style = Typography.bodyMedium
+                    style = Typography.labelMedium
                 )
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
@@ -75,7 +75,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                 Text(
                     text = exercise.load.toString(),
                     modifier = Modifier.padding(end = 4.dp),
-                    style = Typography.bodyMedium
+                    style = Typography.labelMedium
                 )
                 Icon(
                     imageVector = Icons.Filled.FitnessCenter,

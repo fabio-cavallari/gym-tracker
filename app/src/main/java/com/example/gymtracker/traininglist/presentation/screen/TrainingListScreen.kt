@@ -2,7 +2,6 @@ package com.example.gymtracker.traininglist.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,7 +11,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -51,16 +49,11 @@ fun TrainingListScreen(navController: NavController) {
 
 @Composable
 fun TrainingListScreen(state: TrainingListUiState, onIntent: (TrainingListIntent) -> Unit = {}) {
-    Scaffold(
-        modifier = Modifier.padding(DEFAULT_SPACING),
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { },
-            ) {
-                Icon(Icons.Filled.Add, "add new training")
-            }
-        },
-    ) { _ ->
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(DEFAULT_SPACING),
+    ) {
         when (state.uiState) {
             UiState.Success -> LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(DEFAULT_SPACING)
@@ -88,6 +81,13 @@ fun TrainingListScreen(state: TrainingListUiState, onIntent: (TrainingListIntent
             ) {
                 CircularProgressIndicator()
             }
+        }
+        FloatingActionButton(
+            onClick = { },
+            Modifier.padding(0.dp)
+                .align(Alignment.BottomEnd)
+        ) {
+            Icon(Icons.Filled.Add, "add new training")
         }
     }
 }
