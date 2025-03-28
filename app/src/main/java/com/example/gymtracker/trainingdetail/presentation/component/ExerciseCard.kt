@@ -31,8 +31,7 @@ import com.example.gymtracker.utils.exerciseChestASample
 fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
     Card(
         modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
