@@ -1,14 +1,17 @@
 package com.example.gymtracker.trainingdetail.presentation.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -29,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.gymtracker.shared.presentation.state.UiState
 import com.example.gymtracker.shared.presentation.theme.DEFAULT_SPACING
 import com.example.gymtracker.shared.presentation.theme.Typography
+import com.example.gymtracker.shared.presentation.theme.surfaceDimDark
 import com.example.gymtracker.trainingdetail.presentation.component.ExerciseCard
 import com.example.gymtracker.trainingdetail.presentation.component.SwipeableCard
 import com.example.gymtracker.trainingdetail.presentation.state.TrainingDetailUiState
@@ -46,7 +50,7 @@ fun TrainingDetailScreen(navController: NavController, trainingDayId: String) {
 @Composable
 fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailUiState) {
     var uiStateRemember by remember { mutableStateOf(uiState) }
-    Column (
+    Column(
         modifier
             .fillMaxSize()
             .padding(DEFAULT_SPACING),
@@ -77,16 +81,27 @@ fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailU
                     isRevealed = exercise.isOptionsRevealed,
                     actions = {
                         Column(
-                            modifier = Modifier.clickable {
-                                val updatedExercises = uiStateRemember.trainingDay.exercises.mapIndexed { mapIndex, item ->
-                                    if (mapIndex == index) {
-                                        return@mapIndexed exercise.copy(skipped = true)
-                                    }
-                                    return@mapIndexed item
-                                }
-                                uiStateRemember.trainingDay = uiStateRemember.trainingDay.copy(exercises = updatedExercises)
-                            },
-                            verticalArrangement = Arrangement.Center
+                            modifier = Modifier
+                                .width(60.dp)
+                                .fillMaxHeight()
+                                .background(color = surfaceDimDark)
+                                .clickable {
+                                    val updatedExercises =
+                                        uiStateRemember.trainingDay.exercises.mapIndexed { mapIndex, item ->
+                                            if (mapIndex == index) {
+                                                return@mapIndexed exercise.copy(
+                                                    skipped = true,
+                                                    isOptionsRevealed = false
+                                                )
+                                            }
+                                            return@mapIndexed item
+                                        }
+                                    uiStateRemember = uiStateRemember.copy(
+                                        trainingDay = uiStateRemember.trainingDay.copy(exercises = updatedExercises)
+                                    )
+                                },
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
                                 imageVector = Icons.Default.NotificationsPaused,
