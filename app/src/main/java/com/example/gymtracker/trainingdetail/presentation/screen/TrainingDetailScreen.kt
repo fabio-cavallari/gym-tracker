@@ -20,36 +20,42 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.gymtracker.shared.presentation.state.UiState
 import com.example.gymtracker.shared.presentation.theme.DEFAULT_SPACING
 import com.example.gymtracker.shared.presentation.theme.Typography
 import com.example.gymtracker.shared.presentation.theme.surfaceDimDark
+import com.example.gymtracker.trainingdetail.presentation.TrainingDetailViewModel
 import com.example.gymtracker.trainingdetail.presentation.component.ExerciseCard
 import com.example.gymtracker.trainingdetail.presentation.component.SwipeableCard
+import com.example.gymtracker.trainingdetail.presentation.intent.TrainingDetailIntent
 import com.example.gymtracker.trainingdetail.presentation.state.TrainingDetailUiState
 import com.example.gymtracker.utils.trainingDayChestSample
-import com.example.gymtracker.utils.trainingListSample
 
 @Composable
 fun TrainingDetailScreen(navController: NavController, trainingDayId: String) {
-    val trainingDay = trainingListSample.first { trainingDay ->
-        trainingDay.id == trainingDayId
+    val viewModel: TrainingDetailViewModel = hiltViewModel()
+    LaunchedEffect(trainingDayId) {
+        viewModel.setTrainingId(trainingDayId)
     }
-    TrainingDetailScreen(uiState = TrainingDetailUiState(UiState.Success, trainingDay))
+    val state by viewModel.state.collectAsState()
+    TrainingDetailScreen(uiState = state, onIntent = viewModel::onIntent)
 }
 
 @Composable
-fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailUiState) {
-    var uiStateRemember by remember { mutableStateOf(uiState) }
+fun TrainingDetailScreen(
+    modifier: Modifier = Modifier,
+    uiState: TrainingDetailUiState,
+    onIntent: (TrainingDetailIntent) -> Unit = {}
+) {
     Column(
         modifier
             .fillMaxSize()
@@ -61,7 +67,7 @@ fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailU
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(uiStateRemember.trainingDay.name, style = Typography.titleLarge)
+            Text(uiState.trainingDay.name, style = Typography.titleLarge)
             Button(
                 onClick = {},
                 modifier = Modifier.padding(8.dp)
@@ -74,7 +80,7 @@ fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailU
             verticalArrangement = Arrangement.spacedBy(DEFAULT_SPACING)
         ) {
             itemsIndexed(
-                items = uiStateRemember.trainingDay.exercises,
+                items = uiState.trainingDay.exercises,
                 key = { _, item -> item.hashCode() }
             ) { index, exercise ->
                 SwipeableCard(
@@ -86,19 +92,7 @@ fun TrainingDetailScreen(modifier: Modifier = Modifier, uiState: TrainingDetailU
                                 .fillMaxHeight()
                                 .background(color = surfaceDimDark)
                                 .clickable {
-                                    val updatedExercises =
-                                        uiStateRemember.trainingDay.exercises.mapIndexed { mapIndex, item ->
-                                            if (mapIndex == index) {
-                                                return@mapIndexed exercise.copy(
-                                                    skipped = true,
-                                                    isOptionsRevealed = false
-                                                )
-                                            }
-                                            return@mapIndexed item
-                                        }
-                                    uiStateRemember = uiStateRemember.copy(
-                                        trainingDay = uiStateRemember.trainingDay.copy(exercises = updatedExercises)
-                                    )
+                                    onIntent(TrainingDetailIntent.SkipTrainingExercise(index))
                                 },
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally

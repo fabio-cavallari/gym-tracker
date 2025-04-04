@@ -24,10 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,7 +50,6 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
         } else {
             Modifier
         }
-        var skipChipEnabled by remember { mutableStateOf(exercise.skipped) }
         Box(
             modifier = overlayModifier
         ) {
@@ -68,7 +63,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                         style = Typography.titleMedium,
                     )
                     Spacer(Modifier.weight(1f))
-                    if (skipChipEnabled) {
+                    if (exercise.skipped) {
                         Row(
                             modifier = Modifier
                                 .background(
@@ -77,7 +72,7 @@ fun ExerciseCard(modifier: Modifier = Modifier, exercise: Exercise) {
                                 )
                                 .padding(horizontal = 8.dp)
                                 .clickable {
-                                    skipChipEnabled = !skipChipEnabled
+
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {

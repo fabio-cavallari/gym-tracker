@@ -5,5 +5,5 @@ import com.example.gymtracker.traininglist.domain.TrainingDay
 
 data class TrainingDetailUiState(
     val uiState: UiState,
-    var trainingDay: TrainingDay,
+    var trainingDay: TrainingDay = TrainingDay(id = "", name = "", exercises = listOf()),
 )
